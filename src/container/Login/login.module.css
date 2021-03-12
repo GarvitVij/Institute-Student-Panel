@@ -1,0 +1,6 @@
+.Layout {
+    height: 100vh;
+    flex: 1;
+    background-color:#3791eb ;
+    overflow: hidden;
+  }
