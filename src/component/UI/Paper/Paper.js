@@ -8,11 +8,14 @@ const PaperDesign = (props) => {
         root: {
           display: 'flex',
           flexWrap: 'wrap',
+          width : props.isNotWidth ? null :"100%",
+          minWidth: props.isNotWidth ? props.width :"100%",
+          justifyContent:"center",
           '& > *': {
             margin: theme.spacing(1),
             width: '100%',
             height: '100%',
-            backgroundColor: 'white',
+            ...props.extraStyles
           },
         },
       }));

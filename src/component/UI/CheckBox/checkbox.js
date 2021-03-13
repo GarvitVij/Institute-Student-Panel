@@ -9,7 +9,7 @@ const CheckBox = (props) => (
     control = {
       <Checkbox
       checked={props.value}
-      id={props.semester}
+      id={`${props.semester}`}
       label={props.sub}
       name={props.sub}
       onChange={(event,  id) => props.handleChange(event, props.semester)}

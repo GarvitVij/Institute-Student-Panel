@@ -13,8 +13,6 @@ const CustomAccordion = (props) => {
 
     const useStyles = makeStyles((theme) => ({
         root: {
-          width: '100%',
-          // maxWidth: 1400,
         },
         color: {
           backgroundColor: 'lightgreen',
@@ -37,7 +35,7 @@ const CustomAccordion = (props) => {
                    {props.heading}
                 </Typography> 
                 <Typography variant="h6" gutterBottom>
-                   {props.price}
+                ₹ {props.price || 0}
                 </Typography> 
               </div>
                    <Box>
@@ -47,6 +45,7 @@ const CustomAccordion = (props) => {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                       >  
+                      <Typography className={classes.heading}>Select Subjects from drop-down</Typography>
                       </AccordionSummary>   
                       <AccordionDetails>
                         <Typography variant="h5" gutterBottom>

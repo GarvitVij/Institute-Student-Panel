@@ -1,21 +1,8 @@
-.Box{
-    display: flex;
-    justify-content: center;
-   min-height: 100vh;
-    min-width: 100vh; 
+.Login {
+  padding: 5vw 2vw;
 }
 
-.LoginPage{
-    /* border: 3px solid #1d1a1a; */
-    display: flex;
-    justify-content: center;
-    background-color: #fdfffd;
-    box-sizing: border-box;
-    margin: 50px;
-    padding: 50px;
-    /* min-height: 100vh;
-    min-width: 100vh;  */
-    box-shadow: 20px 20px 4px rgba(8, 4, 4, 0.45);
-    /* border-radius: 10px; */
-    /* float: right; */
+.Login > * {
+  display: flex;
+  justify-content: center;
 }

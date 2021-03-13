@@ -1,6 +1,17 @@
 .Layout {
-    height: 100vh;
-    flex: 1;
-    background-color:#3791eb ;
-    overflow: hidden;
-  }
+  height: 100vh;
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Background {
+  background: url(./background.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+}

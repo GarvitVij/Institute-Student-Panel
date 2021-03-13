@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -58,8 +57,8 @@ class  Receipt extends React.Component{
 
 
       componentDidUpdate = () => {
-        if(Object.keys(this.state.receiptData).length == 0){
-            if(this.props.receiptData.length == 0 ){
+        if(Object.keys(this.state.receiptData).length === 0){
+            if(this.props.receiptData.length === 0 ){
                 this.setState({receiptData: this.props.receiptData}) 
             }
         } 

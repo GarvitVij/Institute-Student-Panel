@@ -23,7 +23,7 @@ class PreviousReceipt extends Component {
     // }
   
     componentDidMount = () => {
-       if(Object.keys(this.state.receiptData).length == 0){
+       if(Object.keys(this.state.receiptData).length === 0){
          axios.get("//localhost:4000/api/student/fee/getAll",{
           headers: {'Authorization': localStorage.getItem('token')}
         })

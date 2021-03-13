@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     const classes = useStyles();
   
     return (
-      <form className={classes.root} Validate autoComplete="off">
+      <form className={classes.root} autoComplete="off">
         <TextField required={true} value={props.email} onChange={props.changeEmail} id="outlined-basic" type="text" label="Email" variant="outlined" />
         <TextField required={true} value={props.password} onChange={props.changePassword} id="outlined-basic" type="password" label="Password" variant="outlined" />
         <a href="/forgot-password" style={{justifyContent: "flex-start", color: "blue", textDecoration: "none"}}>Forgot Password??</a>
