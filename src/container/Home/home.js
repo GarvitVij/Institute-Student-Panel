@@ -23,6 +23,17 @@ class HomeLogin extends Component {
         backExamFee: 0,
         lateFee: 0
     }
+    componentDidUpdate(){
+        if(this.props.isBack === true){
+            if(this.state.examFee > 0){
+                this.setState({examFee: 0})
+            }
+        }else{
+            if(this.state.examFee === 0){
+                this.setState({examFee: this.state.fees.normalFee})
+            }
+        }
+    }
 
     componentDidMount(){
         const isStudent =  this.state.student && Object.keys(this.state.student).length === 0 && this.state.student.constructor === Object
@@ -38,7 +49,10 @@ class HomeLogin extends Component {
                         })
                         res.data.subjects[index].subjects = array
                         })
-                        const price = res.data.student.hasPaid === false ? res.data.fees.normalFee : 0
+                        let price = res.data.student.hasPaid === false ? res.data.fees.normalFee : 0
+                        if(this.props.isBack){
+                            price = 0
+                        }
                         //Checking for late fee
                         const now = Date.now()
                         const isLate = now < this.props.minLateFeeDate ? 0 : now < this.props.maxLateFeeDate ? 1 : 2 
@@ -108,11 +122,14 @@ class HomeLogin extends Component {
 
 
     render() {
-    
+        let title = this.props.isBack === true ? "Pay Back Exam" : "Pay Semester Fee" 
+        let isSemester = this.props.isBack ? null :<Fee semester={this.state.student.currentSemester} semesterFee={this.state.fees.normalFee}/>
+        let semester = this.props.isBack ? null : this.state.student.currentSemester
+
         return (
             <PaperDesign> 
-                <Typography align="center" variant="h4">Pay Semester Fee</Typography>
-                    <Fee semester={this.state.student.currentSemester} semesterFee={this.state.fees.normalFee}/>
+                <Typography align="center" variant="h4" >{title}</Typography>
+                    {isSemester}
                     <BackFee subjects= {this.state.subjects || []} handleChange={this.handleSubjectChange} price={this.state.backExamFee}/>
                     <Box border={2} borderTop={0} borderRight={0} borderLeft={0} >
                     <LateFee 
@@ -127,6 +144,8 @@ class HomeLogin extends Component {
                     normalFee={this.state.examFee || 0}
                     backFee={this.state.backExamFee || 0}
                     lateFee={this.state.lateFee || 0}
+                    semester={semester}
+                    selectedSubjects={this.state.selectedSubjects}
                 />
             </PaperDesign> 
         )

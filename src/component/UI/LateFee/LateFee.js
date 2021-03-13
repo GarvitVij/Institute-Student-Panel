@@ -14,10 +14,9 @@ class LateFee extends Component{
     
         if(price === this.props.minLateFee){
             desc = `Last date to pay was ${moment(localMin).local().format('DD-MM-YYYY')}`
-        }else if (price === this.props.miaxLateFee ){
+        }else if (price === this.props.maxLateFee ){
             desc = `Last date Exceeded, last date to pay was ${moment(localMax).local().format('DD-MM-YYYY')}`
         }
-
     
         return(
             <div className={classes.LateFee}>

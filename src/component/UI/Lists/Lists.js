@@ -11,7 +11,7 @@ const listItems = [
     }, {
         label: "Back Exam Pay",
         icon: "AssignmentIcon",
-        link: "/back-pay"
+        link: "/backExam-Pay"
     }, {
         label: "Previous Receipt",
         icon: "ReceiptIcon",
