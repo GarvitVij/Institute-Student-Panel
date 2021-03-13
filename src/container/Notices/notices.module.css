@@ -1,5 +1,11 @@
 .Layout {
-    min-height: 100vh;
-    flex: 1;
-    background-color:#1e90ff 
-  }
+  flex: 1;
+}
+
+.Notices {
+  padding: 1%;
+}
+
+.Accordion {
+  margin: 1%;
+}
