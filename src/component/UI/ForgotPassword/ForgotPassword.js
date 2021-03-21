@@ -3,8 +3,9 @@ import {FormControl} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import AccountCircle from '@material-ui/icons/AccountCircle';
+import CSS_Classes from './ForgotPassword.module.css'
 import TextField from '@material-ui/core/TextField';
+import PaperDesign from '../../UI/Paper/Paper'
 import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
@@ -14,35 +15,41 @@ const useStyles = makeStyles((theme) => ({
       justifyContent: 'center',
       alignItems: 'center',
       minHeight: '100vh',
+      width: '60%',
     },
     margin: {
       margin: theme.spacing(1),
+      width:'100%',
+    },
+    width:{
+        width:'100%'
     }
   }));
 
-const ForgotPassword = () => {
+const ForgotPassword = (props) => {
     const classes = useStyles();
+
     return (
-      <div>
-        <div className={classes.root}>
+     
+        <div className={classes.root, CSS_Classes.Min}>
+        <PaperDesign extraStyles={{zIndex: 2, padding: '8%' }}>
           <form >
             <FormControl className={classes.margin}>
-              <Typography variant="h5" style={{fontWeight: 'bold'}}>Find your GTBPI account</Typography>
-              <Typography variant="button" display="block" gutterBottom>Enter username.</Typography>
+              <Typography variant="h5" style={{fontWeight: 'bold'}}>Change Account Password</Typography>
               <Grid container spacing={1} alignItems="flex-end">
-                <Grid item>
-                  <AccountCircle />
-                </Grid>
-                <Grid item>
-                  <TextField id="input-with-icon-grid" label="Write Here" />
+
+                <Grid item className={classes.width}>
+                  <TextField value={props.value} onChange={(event) => {props.inputHandler(event.target.value)}} id="input-with-icon-grid" fullWidth  label="Your RollNumber " />
                 </Grid>
               </Grid>
             </FormControl>
           </form>
-          <Button variant="contained" color="primary" style={{borderRadius: 4}}>Search</Button>
-        </div>
-          
-        </div>
+          <div style={{display:'flex', width:'100%', justifyContent:'center'}}>
+          <Button variant="contained" onClick={props.submit} color="primary" style={{borderRadius: 4}}>Reset Password</Button>
+          </div>  
+          </PaperDesign>
+          </div>
+ 
     )
 }
 

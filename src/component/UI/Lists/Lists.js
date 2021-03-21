@@ -2,6 +2,8 @@ import React from 'react';
 import Avatar from '../Avatar/Avatar';
 import List from '@material-ui/core/List';
 import IconList from './List/List';
+import classes from './Lists.module.css'
+import Cookie from 'js-cookie'
 
 const listItems = [
     {
@@ -29,9 +31,14 @@ const listItems = [
 
 const Lists = (props) => {    
     return(
-    <div >
+    <div style={{margin: "4%"}} >
     {props.children}
-    <Avatar/>
+    <Avatar />
+    <div className={classes.Name}>
+    <h3>Welcome</h3>
+    <h3>{Cookie.get('name').replace("%20", " ")}</h3>
+    </div>
+    
     
         <List >
          <IconList/>

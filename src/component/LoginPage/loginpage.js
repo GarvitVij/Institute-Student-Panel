@@ -4,15 +4,16 @@ import StudentImage from '../UI/ImagesEdit/Student/studentimage';
 import {FormControl} from '@material-ui/core'; 
 import classes from './loginpage.module.css'
 import PaperDesign from '../UI/Paper/Paper'
+import Footer from '../../component/UI/Footer/Footer'
 
 const LoginPage = (props) => {
     return(
-        <PaperDesign width="30%" isNotWidth={true}>
+        <PaperDesign width="30%" isNotWidth={true} extraStyles={{zIndex:2}}>
         <div className={classes.Login}>
          <div> 
            <FormControl>
             <StudentImage/>
-            <BasicTextFields email={props.email} password={props.password} changeEmail={props.emailHandler} changePassword={props.passwordHandler} Submit={props.loginHandler}/>
+            <BasicTextFields id={props.id} password={props.password} changeId={props.idHandler} changePassword={props.passwordHandler} Submit={props.loginHandler}/>
            </FormControl>  
          </div>
          </div>  

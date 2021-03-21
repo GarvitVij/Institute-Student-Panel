@@ -14,7 +14,8 @@ const Avatars = (props) => {
         large: {
           width: theme.spacing(10),
           height: theme.spacing(10),
-          color: props.color
+          color: "white",
+          background: "black",
         },
         center: {
             display:'flex',
@@ -29,11 +30,18 @@ const Avatars = (props) => {
     
     const classes = useStyles();
 
+    let Default = (    
+        <Avatar className={classes.large}>
+            <AccountCircleIcon className={[classes.large , classes.edit]}/>
+        </Avatar>
+    )
+    if(localStorage.getItem("image")){
+        Default =<Avatar className={classes.large} src={localStorage.getItem("image")} />
+    }
+
     return (
         <div className={classes.center}>
-            <Avatar className={classes.large}>
-                <AccountCircleIcon className={[classes.large , classes.edit]}/>
-            </Avatar>
+            {Default}
         </div>
     )
 }

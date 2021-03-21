@@ -5,7 +5,7 @@ import classes from '../Student/studentimage.module.css';
 
    const StudentImage = () => (
        <div className={classes.stdimg}>
-            <img alt="std" src={studentImage}/>
+            <img alt="std" src={studentImage} width="35%"/>
        </div>
        
    )

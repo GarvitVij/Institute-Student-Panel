@@ -1,15 +1,14 @@
 import React, {Component} from 'react';
-import axios from 'axios';
+import axios from '../../axios';
 
 class Logout extends Component {
-      logOutHandler = () => {
-         axios.delete("//localhost:4000/api/student/auth/logout")
-         .then( res => {console.log(res)})
-         .catch(err => {console.log(err)})
-      }
 
       componentDidMount = () => {
-
+        axios.delete("/api/student/auth/logout",{withCredentials:true})
+        .then( res => {
+            window.location.href="/"
+        })
+        .catch(err => {console.log(err)})
     }
 
 

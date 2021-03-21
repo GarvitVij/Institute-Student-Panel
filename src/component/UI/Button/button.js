@@ -10,18 +10,21 @@ const useStyles = makeStyles((theme) => ({
     extendedIcon: {
       marginRight: theme.spacing(1),
     },
+    Center:{
+        display:'flex',
+        width:'100%',
+        justifyContent:'center'
+    }
   }));
 
 export const ButtonSizes = (props) => {
   const classes = useStyles();
   return (
-    <div>
-      <div>
+      <div className={classes.Center}>
         <Button variant="contained" size="large" color="primary" className={classes.margin} 
         onClick={props.Submit}>
           login
         </Button>
       </div>
-    </div>
   )
 }

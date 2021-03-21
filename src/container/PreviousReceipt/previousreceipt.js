@@ -1,53 +1,32 @@
 import React, { Component } from 'react';
 import classes from './previousreceipt.module.css';
 import PaperDesign from '../../component/UI/Paper/Paper';
-import Receipt from '../../component/UI/Receipt/Receipt';
+import Receipt from '../../component/UI/Receipt/Receipts';
 import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import axios from 'axios';
+import axios from '../../axios';
 
 
 class PreviousReceipt extends Component {
     state = {
-        // isDrawerOpen: false,
-        receiptData: {}
+        receiptData: [],
+        allowedSubjects: []
     }
   
-    
-    // onDrawerOpenHandler = () => {
-    //   this.setState({isDrawerOpen: true})
-    // }
-  
-    // onDrawerCloseHandler = () => {
-    //   this.setState({isDrawerOpen: false})
-    // }
-  
     componentDidMount = () => {
-       if(Object.keys(this.state.receiptData).length === 0){
-         axios.get("//localhost:4000/api/student/fee/getAll",{
-          headers: {'Authorization': localStorage.getItem('token')}
-        })
-        .then(res => {
-          console.log(res.receiptData)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-       }
+
+        if(this.state.receiptData.length === 0 ){
+            axios.get("/api/student/fee/getAll", {withCredentials: true})
+            .then(res => this.setState({receiptData: res.data.receipts, allowedSubjects: res.data.subjects}))
+            .catch(err => console.log(err))
+        }
     }
 
     render() {
         return (
             <div className={classes.Layout}>
-              <PaperDesign >
-                <PaperDesign>
-                  <Box border={3} borderRight={3}  borderLeft={3} borderRadius={8}>
                     <PaperDesign> 
-                      <Typography variant="h5" gutterBottom>Receipts</Typography>
-                      <Receipt receiptData={this.state.receiptData}/>
-                    </PaperDesign>
-                  </Box>
-                </PaperDesign>
+                      <Typography variant="h2" align="center" gutterBottom>Receipts</Typography>
+                      <Receipt receiptData={this.state.receiptData} allowedSubjects={this.state.allowedSubjects}/>
               </PaperDesign>
             </div>
         )

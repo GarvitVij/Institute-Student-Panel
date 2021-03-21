@@ -14,7 +14,8 @@ import PaperDesign from '../component/UI/Paper/Paper';
 
 class Layout extends Component {
     state= {
-      isDrawerOpen: false
+      isDrawerOpen: false,
+      imageChanged: false,
     }
 
     onDrawerOpenHandler = () => {
@@ -23,6 +24,16 @@ class Layout extends Component {
   
     onDrawerCloseHandler = () => {
       this.setState({isDrawerOpen: false})
+    }
+
+    componentDidMount(){
+        if(!localStorage.getItem("image") || localStorage.getItem("image") === "null"){
+            const image = prompt("Enter Url for profile picture (optional)", "Some-Image-Url")
+            if(image !== "Some-Image-Url"){
+            localStorage.setItem("image",image)
+            this.setState({imageChanged: true})
+            }
+        }
     }
 
     render(){
@@ -34,9 +45,7 @@ class Layout extends Component {
                     <Home isBack={true}/>} />
                 <Route exact path="/previous-receipt" component={PreviousReceipt}/>
                 <Route exact path="/notices" component={Notices} />     
-                <Route exact path="/logout" render={(props) => (
-                    <Logout />
-                )} />
+                <Route exact path="/logout" component={Logout}/>
                 <Route component={FourOFour} />
             </Switch>
         ) 

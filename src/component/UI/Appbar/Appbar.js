@@ -5,6 +5,7 @@ import { Toolbar } from '@material-ui/core';
 import { IconButton } from '@material-ui/core';
 import MenuIcon  from '@material-ui/icons/Menu';
 import { AccountCircle } from '@material-ui/icons';
+import Avatar from '../Avatar/Avatar';
 
 const MenuAppbar = (props) => {
 
@@ -25,11 +26,31 @@ const MenuAppbar = (props) => {
         },
         appBarColor: {
             background: 'white'
+        },
+        ProfileImage:{
+            borderRadius: '50%',
+            width:"40%",
+            right:"2%"
+        },
+        fixImage:{
+            display:'flex',
+            justifyContent:'flex-end'
         }
     }
     ));
 
     const classes = useStyles();
+
+    const profileDefault = (
+        <IconButton>
+        <AccountCircle className={classes.appBarIconSettings}/>
+        </IconButton>
+    )
+
+    const profileImage = localStorage.getItem("image") !== "null" ?
+    <Avatar />   
+    :
+    profileDefault
 
     return (
         <div className={classes.root} >
@@ -38,14 +59,8 @@ const MenuAppbar = (props) => {
                    <IconButton onClick={props.drawerOpenhandler} edge="start" className={classes.menuButton} aria-label="Burger Menu">
                        <MenuIcon className={classes.appBarIconSettings}/>
                    </IconButton>
-                   <div>
-                       <IconButton 
-                            aria-label="User Profile Picture"
-                            aria-controls="profile-picture"
-                            aria-haspopup="false"
-                       >
-                        <AccountCircle className={classes.appBarIconSettings} />   
-                       </IconButton>
+                   <div className={classes.fixImage}>
+                        {profileImage}
                    </div>
                </Toolbar>
             </AppBar>

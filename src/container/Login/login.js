@@ -6,14 +6,14 @@ import axios from '../../axios';
 
 class Login extends Component {
     state = {
-        email: '',
+        id: '',
         password: '',
         isInvalid: false
     }
 
  
-    emailChangeHandler = (event) => {
-        this.setState({email: event.target.value});
+    idChangeHandler = (event) => {
+        this.setState({id: event.target.value});
     }
       
     passwordChangeHandler = (event) => {
@@ -22,7 +22,7 @@ class Login extends Component {
      
     onLoginHandler = () => {
         axios.post("/api/student/auth/login", 
-            {rollNumber: this.state.email, password: this.state.password},
+            {rollNumber: this.state.id, password: this.state.password},
             {withCredentials: true}
         ).then(res => {
             if(res.data.isSuccess === true){
@@ -34,18 +34,19 @@ class Login extends Component {
 
     render() {  
         return (
-            <div className={classes.Background}>
+            <div className={classes.Container}>
+            <div className={classes.Background}></div>
                 <div className={classes.Layout}>
                             <LoginPage 
-                                email={this.state.email}
+                                email={this.state.id}
                                 password={this.state.password}
-                                emailHandler={(event) => this.emailChangeHandler(event)}
+                                idHandler={(event) => this.idChangeHandler(event)}
                                 passwordHandler={(event) => this.passwordChangeHandler(event)}
                                 loginHandler={() => this.onLoginHandler()}
                             />                        
                 </div>
-            </div>
-          )
+                </div>
+                )
       }
 }
 

@@ -50,13 +50,17 @@ const PayButton = (props) => {
         }
 
         // Getting the order details back
-        const { amount, orderID, currency } = result.data.savedReceipt;
+        const { amount, orderID, currency, notes } = result.data.savedReceipt;
+        if(orderID === undefined){
+            alert("Payment cant be proceded further ! Please dont make any transaction and contact collage ASAP ! any payment maid after this alert, could would not be responsible ")
+            return 0
+        }
         const prefill = result.data.student
 
         const desc = `From ${prefill.name},${prefill.rollNumber} For ${orderID} `
          
         const options = {
-            key: "rzp_test_urt5r4Gx9cVN9I", // Enter the Key ID generated from the Dashboard
+            key: "rzp_test_KOeC3sklK4ToCl", // Enter the Key ID generated from the Dashboard
             amount: amount.toString(),
             currency: currency,
             name: prefill.name,
@@ -65,7 +69,7 @@ const PayButton = (props) => {
             order_id: orderID,
             handler: async function (response) {
                 const data = {
-                    order_id:orderID,
+                    order_id:response.razorpay_order_id,
                     success: {
                         razorpay_signature: response.razorpay_signature,
                         razorpay_payment_id: response.razorpay_payment_id
@@ -85,11 +89,13 @@ const PayButton = (props) => {
                 },
                 theme: {
                     color: "#11b7a2",
-                },
+                },    
+                notes:notes,
         };
 
         const paymentObject = new window.Razorpay(options);
         paymentObject.open();
+
         paymentObject.on('payment.failed', async function (response){
             const data = {
                 order_id: response.error.metadata.order_id,

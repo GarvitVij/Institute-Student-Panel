@@ -30,6 +30,9 @@ class HomeLogin extends Component {
             }
         }else{
             if(this.state.examFee === 0){
+                if(this.state.student.hasPaid === true){
+                    return 0
+                }
                 this.setState({examFee: this.state.fees.normalFee})
             }
         }
@@ -49,17 +52,17 @@ class HomeLogin extends Component {
                         })
                         res.data.subjects[index].subjects = array
                         })
-                        let price = res.data.student.hasPaid === false ? res.data.fees.normalFee : 0
+                        let price = res.data.student.hasPaid === true ? 0 : res.data.fees.normalFee
+           
                         if(this.props.isBack){
                             price = 0
                         }
                         //Checking for late fee
                         const now = Date.now()
-                        const isLate = now < this.props.minLateFeeDate ? 0 : now < this.props.maxLateFeeDate ? 1 : 2 
-                        const minLateFee = res.data.fees.minLateFee
-                        const maxLateFee = res.data.fees.maxLateFee
-                        const lateFee = isLate === 0 ? 0 : isLate === 1 ? minLateFee : maxLateFee  
-                        this.setState({student: res.data.student, subjects: res.data.subjects, fees: res.data.fees, examFee: price, lateFee: lateFee})
+                        const maxLateDate = new Date(res.data.fees.maxLateFeeDate).getTime()
+                        const minLateDate = new Date(res.data.fees.minLateFeeDate).getTime()
+                        const isLate = now >= maxLateDate? res.data.fees.maxLateFee : now >= minLateDate ? res.data.fees.minLateFee : 0
+                        this.setState({student: res.data.student, subjects: res.data.subjects, fees: res.data.fees, examFee: price, lateFee: isLate})
                     })
                 .catch(err => {this.setState({contentFailed: true})})  
             }
@@ -123,7 +126,7 @@ class HomeLogin extends Component {
 
     render() {
         let title = this.props.isBack === true ? "Pay Back Exam" : "Pay Semester Fee" 
-        let isSemester = this.props.isBack ? null :<Fee semester={this.state.student.currentSemester} semesterFee={this.state.fees.normalFee}/>
+        let isSemester = this.props.isBack ? null : this.state.student.hasPaid === true ? null : <Fee semester={this.state.student.currentSemester} semesterFee={this.state.fees.normalFee}/>
         let semester = this.props.isBack ? null : this.state.student.currentSemester
 
         return (

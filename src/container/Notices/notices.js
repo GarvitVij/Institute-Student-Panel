@@ -26,11 +26,13 @@ class Notices extends Component {
                 <PaperDesign extraStyles={{padding: '1%'}}>
                 <Typography align="center" variant="h2">Notices</Typography>
                 <div className={classes.Notices}>
-                {this.state.notices.map((notice,index)=> (
-                    <div className={classes.Accordion}>
-                    <Accordion panel={index} key={index} heading={notice.title} description={notice.desc}/>
-                    </div>
-                    ))}
+                {this.state.notices.map((notice,index)=> {
+                    const title = notice.title === '' ? 'Empty Notice' : notice.title 
+                    const desc = notice.desc === '' ? 'Empty Description' : notice.desc
+                    return(<div className={classes.Accordion}>
+                    <Accordion panel={index} key={index} heading={title} description={desc}/>
+                    </div>)
+                    })}
                 </div>
                 </PaperDesign>
             </div>
