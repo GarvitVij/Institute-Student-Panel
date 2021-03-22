@@ -31,6 +31,7 @@
   flex-wrap: wrap;
   width: 100%;
   justify-content: space-evenly;
+  padding: 0% 1%;
 }
 
 .display {
@@ -43,10 +44,10 @@
 }
 
 .lowerColumn {
-  margin: 2%;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  flex-wrap: wrap;
 }
 
 .Buttons {
@@ -54,13 +55,19 @@
   flex-direction: row;
   width: 100%;
   justify-content: space-around;
+  flex-wrap: wrap;
 }
 
-.Modal {
-  display: flex;
-  flex-direction: column;
-  padding: 2%;
-  align-items: center;
-  justify-content: center;
-  height: 90vh;
+.padded {
+  padding: 0%;
+}
+
+@media only screen and (max-width: 500px) {
+  .padded {
+    padding: 2%;
+  }
+
+  .lowerColumn {
+    margin: 2%;
+  }
 }

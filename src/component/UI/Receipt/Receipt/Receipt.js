@@ -8,12 +8,13 @@ import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import classes from './Receipt.module.css'
 import Modal from '@material-ui/core/Modal';
-import PaperDesign from '../../Paper/Paper';
+import ChangeSubject from './ChangeSubject/ChangeSubject'
 import moment from 'moment'
+import axios from '../../../../axios'
 
 class Receipt extends React.Component{
     state = {
-        modalState: true,
+        modalState: false,
 
    }  
 
@@ -22,10 +23,23 @@ class Receipt extends React.Component{
     }
 
     closeModal = () =>{
-        this.setState({modalState: true})
+        this.setState({modalState: false})
+    }
+
+    download = (e) => {
+        axios.get('/api/student/fee/generate',{withCredentials: true, responseType: 'blob'})
+        .then(res =>  {
+            const url = window.URL.createObjectURL(new Blob([res.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'receipt.pdf');
+            document.body.appendChild(link);
+            link.click();
+        })
     }
 
    render(){
+
         let date = moment.utc(new Date(this.props.date).getTime()).toDate()
         date = moment(date).local().format('DD-MM-YYYY') 
 
@@ -67,12 +81,7 @@ class Receipt extends React.Component{
         })
         
         const body = (
-            <div className={classes.Modal}>
-            <PaperDesign extraStyles={{padding: '2%'}}>
-            <Typography variant="h3" align="center">Change Subjects</Typography>
-            
-            </PaperDesign>
-            </div>
+            <ChangeSubject receipt={this.props.receiptID} close={this.closeModal} backExams={backExams} availableSubjects={this.props.subjects}/>
         )
     
        return(
@@ -95,14 +104,14 @@ class Receipt extends React.Component{
         </Box>
         
         <Box className={classes.boxExpanded}>
-        <AccordionDetails style={{display:'flex', flexDirection: 'column'}}>
+        <AccordionDetails style={{display:'flex', flexDirection: 'column', flexWrap:'wrap'}}>
         <div className={classes.lowerColumn}>
-        <div>   
+        <div className={classes.padded}>   
             <Typography >{semester}</Typography>
            <Typography>amount: Rs. {this.props.amount / 100} </Typography>
            <Typography>Valid: {this.props.isValid === true ? "Yes" : "No" }</Typography>
         </div>
-        <div>  
+        <div className={classes.padded}>  
            <Typography>Selected Back Exams:</Typography>
            {backExams}
         </div>
@@ -111,10 +120,10 @@ class Receipt extends React.Component{
 
         <div className={classes.Buttons}>   
 
-        <Button  style={{boderRadius: 10}} variant="contained" color="secondary">
+        <Button id={this.props.receiptID}  style={{boderRadius: 10, margin:'10px'}} variant="contained" color="secondary" onClick={(e) => {this.download(e)}}>
         DOWNLOAD RECEIPT
         </Button>   
-        <Button  style={{boderRadius: 10}} variant="contained" color="secondary" onClick={this.openModal} >
+        <Button  style={{boderRadius: 10, margin:'10px'}} variant="contained" color="secondary" onClick={this.openModal} >
             CHANGE SUBJECT
             </Button> 
         </div>
