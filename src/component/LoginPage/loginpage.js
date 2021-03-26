@@ -4,7 +4,7 @@ import StudentImage from '../UI/ImagesEdit/Student/studentimage';
 import {FormControl} from '@material-ui/core'; 
 import classes from './loginpage.module.css'
 import PaperDesign from '../UI/Paper/Paper'
-import Footer from '../../component/UI/Footer/Footer'
+
 
 const LoginPage = (props) => {
     return(

@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import ForgotPassword from '../../component/UI/ForgotPassword/ForgotPassword';
 import classes from './Password.module.css';
 import axios from '../../axios'
-import { Typography } from '@material-ui/core';
 import Snackbar from '../../component/UI/snackbar/snackbar'
 
 class Password extends Component {  
 
     state={
-        rollNumber: null,
+        rollNumber: '',
         showSnackbar : false,
         message : '',
         type: ''

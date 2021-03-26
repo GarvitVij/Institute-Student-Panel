@@ -31,7 +31,7 @@ const ForgotPassword = (props) => {
 
     return (
      
-        <div className={classes.root, CSS_Classes.Min}>
+        <div className={`${classes.root}, ${CSS_Classes.Min}`}>
         <PaperDesign extraStyles={{zIndex: 2, padding: '8%' }}>
           <form >
             <FormControl className={classes.margin}>

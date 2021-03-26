@@ -37,8 +37,8 @@ class Notices extends Component {
                 {this.state.notices.map((notice,index)=> {
                     const title = notice.title === '' ? 'Empty Notice' : notice.title 
                     const desc = notice.desc === '' ? 'Empty Description' : notice.desc
-                    return(<div className={classes.Accordion}>
-                    <Accordion panel={index} key={index} heading={title} description={desc}/>
+                    return(<div key={index} className={classes.Accordion}>
+                    <Accordion panel={index} heading={title} description={desc}/>
                     </div>)
                     })}
                 </div>

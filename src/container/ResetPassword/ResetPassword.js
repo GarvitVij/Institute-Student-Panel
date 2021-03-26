@@ -7,7 +7,7 @@ import Snackbar from '../../component/UI/snackbar/snackbar'
 
    class ResetPassword extends Component {
        state = {
-           password: null,
+           password: '',
            token: null,
            error: false,
            type: '',
@@ -30,7 +30,7 @@ import Snackbar from '../../component/UI/snackbar/snackbar'
        }
 
        updatePassword = (event) => {
-           if(this.state.password.length < 7){
+           if(this.state.password.length < 7 || this.state.password === null){
                 this.setState({error: true, errorMessage: 'Password Cannot be smaller than 7 characters', type: 'warning'})
                 setTimeout(()=>{
                     this.setState({error: false, errorMessage: '', type: '' })

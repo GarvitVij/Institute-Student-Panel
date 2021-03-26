@@ -1,7 +1,6 @@
 import React from 'react';
 import Receipt from './Receipt/Receipt'
 import classes from './Receipts.module.css';
-import Modal from '@material-ui/core/Modal';
 
 class  Receipts extends React.Component{
 
@@ -9,7 +8,7 @@ class  Receipts extends React.Component{
         return (
           <div className={classes.root}>
           {this.props.receiptData.map(receipt =>
-            <Receipt {...receipt} subjects={this.props.allowedSubjects}/>
+            <Receipt key={receipt.receiptID} {...receipt} subjects={this.props.allowedSubjects}/>
           )}
           </div>
         )  

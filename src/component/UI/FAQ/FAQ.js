@@ -9,7 +9,7 @@ const FAQ = (props) => (
     <Typography variant="h2" align="center" style={{fontFamily: "'Roboto', sans-serif", fontWeight: 800}}>FAQ !</Typography>
     <Typography variant="h6" align="center">Use ctrl+f / Find</Typography>
     <div className={classes.FAQ}>
-     { ques.map(que =>  <QuesAndAns que={que.que} ans={que.ans}/>) }
+     { ques.map((que,index) =>  <QuesAndAns key={index} que={que.que} ans={que.ans}/>) }
     </div>
     </React.Fragment>
 )

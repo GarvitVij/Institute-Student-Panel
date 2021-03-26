@@ -49,7 +49,7 @@ const ChangeSubject = (props) => {
       };
 
       let availableSubjects = []
-        props.availableSubjects.map(subjects => {
+        props.availableSubjects.forEach(subjects => {
           subjects.subjects.map(subject =>  availableSubjects.push(subject))
       })
 
@@ -88,7 +88,7 @@ const ChangeSubject = (props) => {
                     <MenuItem value="">
                     <em>None</em>
                     </MenuItem>
-                    {props.backExams.map(backExam => (<MenuItem value={backExam} >{backExam}</MenuItem>))}
+                    {props.backExams.map(backExam => (<MenuItem key={backExam} value={backExam} >{backExam}</MenuItem>))}
                     </Select>
             </FormControl>
             <Typography variant="h6" align="center" className={classes.to}>TO</Typography>
@@ -106,7 +106,7 @@ const ChangeSubject = (props) => {
                 <MenuItem value="">
                 <em>None</em>
                 </MenuItem>
-                {availableSubjects.map(subject => <MenuItem key={subject} value={subject} ><em>{subject}</em></MenuItem>)}
+                {availableSubjects.map(subject => <MenuItem key={subject}  value={subject} ><em>{subject}</em></MenuItem>)}
                 </Select>
         </FormControl>
             </div>
