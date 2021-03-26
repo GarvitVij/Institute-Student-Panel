@@ -6,10 +6,35 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import axios from '../../../axios'
+import Snackbar from '../snackbar/snackbar'
 import Logo from '../../../Assets/gtbpilogo.png'
 
 const PayButton = (props) => {
 
+    let [contentError, setContent] = React.useState(false);
+    let [contentMessage, setMessage] = React.useState('')
+    
+    let [paymentSuccess, setSuccessBool] = React.useState(false);
+    let [paymentSuccessMessage, setSuccessMessage] = React.useState('');
+
+    const setSuccess = (message) => {
+        setSuccessBool(paymentSuccess = true)
+        setSuccessMessage(paymentSuccessMessage = message)
+        setTimeout(()=>{
+            setContent(paymentSuccess = false)
+            setMessage(paymentSuccessMessage = '')
+        }, 3000)
+    }
+
+    const setError = (message) => {
+        setContent(contentError = true)
+        setMessage(contentMessage = message)
+        setTimeout(()=>{
+            setContent(contentError = false)
+            setMessage(contentMessage = '')
+        }, 10000)
+    }
+    
     function loadScript(src) {
         return new Promise((resolve) => {
             const script = document.createElement("script");
@@ -30,7 +55,7 @@ const PayButton = (props) => {
         );
 
         if (!res) {
-            alert("Razorpay SDK failed to load. Are you online?");
+            setError("Razorpay SDK failed to load. Are you online?")
             return;
         }
 
@@ -42,18 +67,20 @@ const PayButton = (props) => {
             data.subjects = props.selectedSubjects
         }
         //  creating a new order
-        const result = await axios.post("/api/student/fee/pay",data,{withCredentials: true});
+        const result = await axios.post("/api/student/fee/pay",data,{withCredentials: true}).then().catch(err => {
+            setError(err.errorMessage)
+        });
 
         if (!result) {
-            alert("Server error. Are you online?");
+            setError("Server error. Are you online?")
             return;
         }
 
         // Getting the order details back
         const { amount, orderID, currency, notes } = result.data.savedReceipt;
         if(orderID === undefined){
-            alert("Payment cant be proceded further ! Please dont make any transaction and contact collage ASAP ! any payment maid after this alert, could would not be responsible ")
-            return 0
+            setError("Payment cant be proceded further ! Please dont make any transaction and contact collage ASAP ! any payment maid after this alert, collage would not be responsible ")
+            return 
         }
         const prefill = result.data.student
 
@@ -77,10 +104,17 @@ const PayButton = (props) => {
 
                 };
 
-                const result = await axios.post("/api/student/fee/validate", data,
-                { withCredentials: true});
+                await axios.post("/api/student/fee/validate", data,
+                { withCredentials: true}).then(response => {
+                        if(response.data.isSuccess){
+                            setSuccess("Payment went successfull !")
+                        }
+                }).catch(
+                    err => {
+                        setError(err.errorMessage)
+                    }
+                );
 
-                alert("Payment went successful !");
             },
                 prefill:{
                     name: prefill.name,
@@ -108,10 +142,17 @@ const PayButton = (props) => {
                 }
             };
 
-            const result = await axios.post("/api/student/fee/validate", data,
-            { withCredentials: true});
+            await axios.post("/api/student/fee/validate", data,
+            { withCredentials: true}).then(response => {
+                if(response.data.isSuccess){
+                    setSuccess("Payment went successfull !")
+                }
+                }).catch(
+                    err => {
+                        setError(err.errorMessage)
+                    }
+                );;
 
-            alert("Payment was failed, Please try again ! if the money was deducted, Please contact institute")
         })
     }
 
@@ -143,7 +184,9 @@ const PayButton = (props) => {
           <Button style={{backgroundColor: "#475BE3", borderRadius: 8, padding: "1% 3%", color:"white", margin:"1% 0% 2% 0%"}} variant="contained" onClick={displayRazorpay}>
             <Typography variant="h5">Pay Now</Typography>
           </Button>
-          </CardActions>       
+          </CardActions> 
+          {contentError === true ? <Snackbar message={contentMessage} type="error" time={10000}/> : null}
+          {paymentSuccess === true ? <Snackbar message={paymentSuccessMessage} type="success" /> : null}      
        </Card>
     )
 }

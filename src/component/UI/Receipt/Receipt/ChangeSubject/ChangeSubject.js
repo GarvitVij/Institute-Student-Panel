@@ -9,6 +9,7 @@ import PaperDesign from '../../../Paper/Paper';
 import CSSClasses from  './ChangeSubject.module.css'
 import axios from '../../../../../axios'
 import { Button } from '@material-ui/core';
+import Snackbar from '../../../snackbar/snackbar'
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -29,6 +30,15 @@ const ChangeSubject = (props) => {
     const classes = useStyles();
     const [subjectFrom, setFrom] = React.useState('');
     const [subjectTo, setTo] = React.useState('');
+
+    const [decision, setDecision] = React.useState({showModal: false, message: '', type: ''})
+
+    const showModalToggler = (message,type) => {
+        setDecision({showModal: true, message: message, type: type})
+        setTimeout(() => {
+            setDecision({showModal: false, message: '', type: ''})
+        }, 3200);
+    }
 
     const handleChangeFrom = (event) => {
         setFrom(event.target.value);
@@ -53,8 +63,10 @@ const ChangeSubject = (props) => {
             subjectFrom : subjectFrom,
             subjectTo: subjectTo
         },{withCredentials: true}).then(res => {
-            alert(res)
-        }).catch(err => console.log(err))
+            if(res.data.isSuccess === true){
+                showModalToggler("Request received !", "success")
+            }
+        }).catch(err => { showModalToggler( err.errorMessage, "error")})
       }
 
     return(
@@ -103,6 +115,7 @@ const ChangeSubject = (props) => {
             <Button fullWidth className={CSSClasses.Button} onClick={props.close}>Close</Button>
             </div>
             </PaperDesign>
+            {decision.showModal === true ? <Snackbar message={decision.message} type={decision.type} /> : null}
         </div>
     )
 }

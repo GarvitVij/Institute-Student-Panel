@@ -11,11 +11,12 @@ import Modal from '@material-ui/core/Modal';
 import ChangeSubject from './ChangeSubject/ChangeSubject'
 import moment from 'moment'
 import axios from '../../../../axios'
+import Snackbar from '../../snackbar/snackbar'
 
 class Receipt extends React.Component{
     state = {
         modalState: false,
-
+        error: false
    }  
 
    openModal = () => {
@@ -27,7 +28,7 @@ class Receipt extends React.Component{
     }
 
     download = (e) => {
-        axios.get('/api/student/fee/generate',{withCredentials: true, responseType: 'blob'})
+        axios.post('/api/student/fee/generate',{receiptID: this.props.receiptID} ,{withCredentials: true, responseType: 'blob'})
         .then(res =>  {
             const url = window.URL.createObjectURL(new Blob([res.data]));
             const link = document.createElement('a');
@@ -35,6 +36,11 @@ class Receipt extends React.Component{
             link.setAttribute('download', 'receipt.pdf');
             document.body.appendChild(link);
             link.click();
+        }).catch(err => {
+            this.setState({error: true, errorMessage :'Cant generate receipt PDF !'})
+            setTimeout(() => {
+                this.setState({error: false, errorMessage : ''})
+            },3200);
         })
     }
 
@@ -45,6 +51,7 @@ class Receipt extends React.Component{
 
         let semester = ""
         const backExams = []
+        const backExamNames = []
         this.props.notes.forEach(note => {
             if(note.includes("for Semester :")){
                 if(this.props.notes.length > 1){
@@ -57,6 +64,9 @@ class Receipt extends React.Component{
                     semester = "For back exam only"
                     const semAndSubjects = note.split("and")
                     let subjects = semAndSubjects[1].split(",")
+                    subjects.forEach(subject => {
+                        backExamNames.push(subject.replace('subjects : ', ''))
+                    } )
                     subjects = subjects.map(sub => <Typography>{sub}</Typography>)
                     const typo = (
                         <div>
@@ -79,9 +89,10 @@ class Receipt extends React.Component{
                 }
             }
         })
+
         
         const body = (
-            <ChangeSubject receipt={this.props.receiptID} close={this.closeModal} backExams={backExams} availableSubjects={this.props.subjects}/>
+            <ChangeSubject receipt={this.props.receiptID} close={this.closeModal} backExams={backExamNames} availableSubjects={this.props.subjects}/>
         )
     
        return(
@@ -140,6 +151,7 @@ class Receipt extends React.Component{
         >
             {body}
         </Modal>
+        {this.state.error === true ? <Snackbar message={this.state.errorMessage} type="error" /> : null}
         </Accordion>
         
        )

@@ -4,18 +4,26 @@ import PaperDesign from '../../component/UI/Paper/Paper';
 import axios from '../../axios'
 import Accordion from '../../component/UI/Accordion/Accordion'
 import { Typography } from '@material-ui/core';
+import Snackbar from '../../component/UI/snackbar/snackbar'
 
 class Notices extends Component {
 
     state={
-        notices: []
+        notices: [],
+        contentFailed : false,
+        errorMessage: ''
     }
 
     componentDidMount(){
         if(this.state.notices.length === 0){
             axios.get('/api/student/get/notices', {withCredentials: true})
-            .then(res => {console.log(res);this.setState({notices: res.data.notices})})
-            .catch(err => console.log(err))
+            .then(res => {this.setState({notices: res.data.notices})})
+            .catch(err => {
+                this.setState({contentFailed : true, errorMessage: err.errorMessage})
+                setTimeout(()=>{
+                    this.setState({contentFailed: false, errorMessage: '' })
+                }, 3200)
+            })
         }
       
     }
@@ -35,6 +43,7 @@ class Notices extends Component {
                     })}
                 </div>
                 </PaperDesign>
+                {this.state.contentFailed === true ? <Snackbar message={this.state.errorMessage} type="warning" /> : null}
             </div>
         )
     }

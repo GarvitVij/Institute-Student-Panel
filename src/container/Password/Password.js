@@ -3,12 +3,15 @@ import ForgotPassword from '../../component/UI/ForgotPassword/ForgotPassword';
 import classes from './Password.module.css';
 import axios from '../../axios'
 import { Typography } from '@material-ui/core';
+import Snackbar from '../../component/UI/snackbar/snackbar'
 
 class Password extends Component {  
 
     state={
         rollNumber: null,
-        sent : false
+        showSnackbar : false,
+        message : '',
+        type: ''
     }
 
     rollNumberChangeHandler = (value) => {
@@ -18,14 +21,21 @@ class Password extends Component {
     ResetPassword = ()=>{
 
         axios.post('/api/student/auth/resetpwd', { rollNumber: this.state.rollNumber})
-        .then(res => {this.setState({sent: true})})
-        .catch(err => console.log(err) )
+        .then(res => {
+            this.setState({showSnackbar: true, message: res.data.message, type: 'info' })
+            setTimeout(()=>{
+                this.setState({showSnackbar: false, message: '', type: '' })
+            }, 3200)
+        })
+        .catch(err => {
+            this.setState({showSnackbar: true, message: err.errorMessage, type: 'error' })
+            setTimeout(()=>{
+                this.setState({showSnackbar: false, message: '', type: '' })
+            }, 3200)
+        } )
     }
 
     render() {
-        let sent = this.state.sent === true ?
-        <Typography className={classes.Text} align="center" variant="h6">You will receive a email to change password !</Typography>
-        : null
         return(
             <div className={classes.Container}>
             <div className={classes.Background}></div>  
@@ -35,7 +45,7 @@ class Password extends Component {
                 value={this.state.rollNumber} 
                 submit={this.ResetPassword}
                 />
-            {sent}
+            {this.state.showSnackbar === true ? <Snackbar message={this.state.message} type={this.state.type}/> : null}
             </div>    
             </div>
         )

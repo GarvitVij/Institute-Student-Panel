@@ -3,14 +3,16 @@ import axios from '../../axios'
 import classes from './ResetPassword.module.css'
 import ResetPasswordUI from '../../component/UI/ResetPassword/ResetPassword'
 import {Redirect} from 'react-router-dom'
+import Snackbar from '../../component/UI/snackbar/snackbar'
 
    class ResetPassword extends Component {
        state = {
            password: null,
            token: null,
-           error: '',
+           error: false,
+           type: '',
+           errorMessage: '',
            comfirmPassword: null,
-           changed: false
        }
 
        handlePasswordChange = (value) => {
@@ -28,23 +30,36 @@ import {Redirect} from 'react-router-dom'
        }
 
        updatePassword = (event) => {
-           if(!this.state.password.length > 7){
-                this.setState({error: 'Password Cannot be smaller than 7 characters'})
+           if(this.state.password.length < 7){
+                this.setState({error: true, errorMessage: 'Password Cannot be smaller than 7 characters', type: 'warning'})
+                setTimeout(()=>{
+                    this.setState({error: false, errorMessage: '', type: '' })
+                }, 3200)
                 return 0;
            }
 
 
            if(this.state.password !== this.state.comfirmPassword){
-            this.setState({error: "passwords Didn't match"})
+            this.setState({error: true, errorMessage: "Passwords didn't match", type: 'warning'})
+            setTimeout(()=>{
+                this.setState({error: false, errorMessage: '', type: '' })
+            }, 3200)
             return 0;
             }
 
             axios.patch('/api/student/auth/resetpwd/' + encodeURI(this.state.token), {password: this.state.password})
             .then(res => {
-                alert("Password Changed Successfully !!")
-                this.setState({changed: true})
+                this.setState({error: true, errorMessage: 'Password Changed !', type: 'success'})
+                setTimeout(()=>{
+                    this.setState({error: false, errorMessage: '', type: '' })
+                }, 3200)
             })
-            .catch(err=> console.log(err))
+            .catch(err=> {
+                this.setState({error: true, errorMessage: err.errorMessage, type: 'error'})
+                setTimeout(()=>{
+                    this.setState({error: false, errorMessage: '', type: '' })
+                }, 3200)
+            })
        }
 
    render(){
@@ -60,7 +75,8 @@ import {Redirect} from 'react-router-dom'
         handlePwdChange={this.handlePasswordChange}
         handleConfirmPwdChange={this.handleConfirmPasswordChange}
         />
-        </div>    
+        </div>
+        {this.state.error === true ? <Snackbar message = { this.state.errorMessage} type={this.state.type}/> : null }    
         </div>
         )
    }

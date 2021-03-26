@@ -7,6 +7,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import LateFee from '../../component/UI/LateFee/LateFee'
 import axios from '../../axios';
+import SnackBar from '../../component/UI/snackbar/snackbar'
 
 
 
@@ -21,7 +22,8 @@ class HomeLogin extends Component {
         selectedSubjects: [],
         examFee: 0,
         backExamFee: 0,
-        lateFee: 0
+        lateFee: 0,
+        errorMessage: ''
     }
     componentDidUpdate(){
         if(this.props.isBack === true){
@@ -64,7 +66,12 @@ class HomeLogin extends Component {
                         const isLate = now >= maxLateDate? res.data.fees.maxLateFee : now >= minLateDate ? res.data.fees.minLateFee : 0
                         this.setState({student: res.data.student, subjects: res.data.subjects, fees: res.data.fees, examFee: price, lateFee: isLate})
                     })
-                .catch(err => {this.setState({contentFailed: true})})  
+                .catch(err => {
+                    this.setState({contentFailed: true, errorMessage: err.errorMessage})
+                    setTimeout(()=>{
+                        this.setState({contentFailed: false, errorMessage: ''})
+                    }, 3200)
+                })  
             }
     }
 
@@ -150,6 +157,7 @@ class HomeLogin extends Component {
                     semester={semester}
                     selectedSubjects={this.state.selectedSubjects}
                 />
+                {this.state.contentFailed ? <SnackBar message={this.state.errorMessage} type="warning" /> : null}  
             </PaperDesign> 
         )
     }

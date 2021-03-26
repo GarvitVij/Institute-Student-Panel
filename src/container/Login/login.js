@@ -2,13 +2,14 @@ import React, {Component} from 'react';
 import LoginPage from '../../component/LoginPage/loginpage';
 import classes from './login.module.css';
 import axios from '../../axios';
-
+import SnackBar from '../../component/UI/snackbar/snackbar'
 
 class Login extends Component {
     state = {
         id: '',
         password: '',
-        isInvalid: false
+        isInvalid: false,
+        errorMessage: ''
     }
 
  
@@ -28,7 +29,12 @@ class Login extends Component {
             if(res.data.isSuccess === true){
                 this.props.refresh()
             }
-        }).catch(err => {this.setState({isInvalid: true})})
+        }).catch(err => {
+            this.setState({isInvalid: true, errorMessage: err.errorMessage})
+            setTimeout(()=>{
+                this.setState({isInvalid: false, errorMessage: ''})
+            }, 3200)
+        })
     }
 
 
@@ -43,8 +49,10 @@ class Login extends Component {
                                 idHandler={(event) => this.idChangeHandler(event)}
                                 passwordHandler={(event) => this.passwordChangeHandler(event)}
                                 loginHandler={() => this.onLoginHandler()}
-                            />                        
+                            />             
+                              
                 </div>
+                {this.state.isInvalid ? <SnackBar message={this.state.errorMessage} type="error" /> : null}       
                 </div>
                 )
       }
