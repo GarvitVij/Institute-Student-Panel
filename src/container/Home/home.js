@@ -113,7 +113,7 @@ class HomeLogin extends Component {
         let selectedBackExams = []
 
          updatedSu.forEach((subjects,index) => {
-            const selectedSubjects = subjects.subjects.forEach(sub => {if(sub.checked === true){
+            const selectedSubjects = subjects.subjects.map(sub => {if(sub.checked === true){
                 return sub.name
             }}).filter(subject => subject )
             if(selectedSubjects.length > 0){
