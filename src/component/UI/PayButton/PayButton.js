@@ -145,7 +145,7 @@ const PayButton = (props) => {
             await axios.post("/api/student/fee/validate", data,
             { withCredentials: true}).then(response => {
                 if(response.data.isSuccess){
-                    setSuccess("Payment went successfull !")
+                    setSuccess("Payment Failed !")
                 }
                 }).catch(
                     err => {
