@@ -55,7 +55,6 @@ const ChangeSubject = (props) => {
 
       const requestChange = () => {
           if(subjectFrom === "" || subjectTo === "") {
-              console.log("Both fields are required")
                 return 0
         }
         axios.post('/api/student/request/', {
@@ -68,6 +67,7 @@ const ChangeSubject = (props) => {
             }
         }).catch(err => { showModalToggler( err.errorMessage, "error")})
       }
+
 
     return(
         <div className={CSSClasses.Modal}>

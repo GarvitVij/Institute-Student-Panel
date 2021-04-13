@@ -85,12 +85,12 @@ class Receipt extends React.Component{
                         {subjects}
                         </div>
                         )
+                        backExamNames.push(semAndSubjects[1].replace('subjects : ', ''))
                         backExams.push(typo)
                 }
             }
         })
 
-        
         const body = (
             <ChangeSubject receipt={this.props.receiptID} close={this.closeModal} backExams={backExamNames} availableSubjects={this.props.subjects}/>
         )
