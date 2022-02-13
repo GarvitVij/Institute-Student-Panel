@@ -8,12 +8,8 @@ const FAQs = [
         ans: "Use the forgot password to change your password"
     },
     {
-        que: "What to do if payment fails ? ( Monet not deducted)",
-        ans: "Try again 🙂"
-    },
-    {
-        que: "What to do if payment fails ? ( Monet deducted)",
-        ans: "Contact collage for further assistance"
+        que: "What to do if payment fails ? ( Money deducted)",
+        ans: "Contact college for further assistance"
     },
     {
         que: "Whats the best time to pay fee ?",
@@ -25,8 +21,8 @@ const FAQs = [
     },
     {
         que: "Where is my receipt ?",
-        ans: "Kindly wait for 24 hours, if after 24 hours its still not visible contact collage !"
-    },
+        ans: "Kindly wait for 24 hours, if after 24 hours its still not visible contact college !"
+    }
 ]
 
 export default FAQs

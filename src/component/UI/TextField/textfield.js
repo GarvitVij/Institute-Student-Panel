@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
         <div className={classes.Fields}>   
       <TextField required={true} value={props.id} onChange={props.changeId} id="outlined-basic" type="text" label="Roll Number" variant="outlined" />
         <TextField required={true} value={props.password} onChange={props.changePassword} id="outlined-basic" type="password" label="Password" variant="outlined" />
-          <NavLink to="/forgot-password" style={{justifyContent: "flex-start", color: "blue", textDecoration: "none"}}>Forgot Password??</NavLink>
+          <NavLink to="/forgot-password" style={{justifyContent: "flex-start", color: "blue", textDecoration: "none"}}>Forgot Password !</NavLink>
         <ButtonSizes Submit={props.Submit}></ButtonSizes>
         </div>
      
